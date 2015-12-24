@@ -15,12 +15,12 @@ for i1 in range(tTbsp):
 	for i2 in range(tTbsp-i1):
 		for i3 in range(tTbsp-i1-i2):
 			i4 = tTbsp - i1 - i2 - i3
-			capacity =		ingredients[0][0]*i1 + ingredients[1][0]*i2 + ingredients[2][0]*i3 + ingredients[3][0]*i4
-			durability =	ingredients[0][1]*i1 + ingredients[1][1]*i2 + ingredients[2][1]*i3 + ingredients[3][1]*i4
-			flavor =		ingredients[0][2]*i1 + ingredients[1][2]*i2 + ingredients[2][2]*i3 + ingredients[3][2]*i4
-			texture = 		ingredients[0][3]*i1 + ingredients[1][3]*i2 + ingredients[2][3]*i3 + ingredients[3][3]*i4
+			capacity =		max(ingredients[0][0]*i1 + ingredients[1][0]*i2 + ingredients[2][0]*i3 + ingredients[3][0]*i4, 0)
+			durability =	max(ingredients[0][1]*i1 + ingredients[1][1]*i2 + ingredients[2][1]*i3 + ingredients[3][1]*i4, 0)
+			flavor =		max(ingredients[0][2]*i1 + ingredients[1][2]*i2 + ingredients[2][2]*i3 + ingredients[3][2]*i4, 0)
+			texture = 		max(ingredients[0][3]*i1 + ingredients[1][3]*i2 + ingredients[2][3]*i3 + ingredients[3][3]*i4, 0)
+			calories =		max(ingredients[0][4]*i1 + ingredients[1][4]*i2 + ingredients[2][4]*i3 + ingredients[3][4]*i4, 0)
 			score = (capacity*durability*flavor*texture)
-			print (score)
-			scores.append(max(0,score))
-
+			if calories == 500:
+				scores.append(max(0,score))
 print(max(scores))
