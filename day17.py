@@ -1,18 +1,16 @@
 import itertools
 
-eggnog, sizes,combinations = 150,[],0
+eggnog, sizes, combinations = 150,[],0
+minFound = False
 
 for line in open("day17input.txt"):
 	sizes.append(int(line))
-
-for perm in itertools.permutations(sizes):
-	print (perm)
-	for i in range(len(perm)-1):
-		capacity = sum(perm[:(-i+1)])
-		print(capacity)
-		if (capacity == eggnog):
+for i in range(len(sizes)):
+	for comb in itertools.combinations(sizes, i):
+		if sum(comb) == 150:
 			combinations += 1
-		if (capacity < eggnog):
-			break
-
+			minFound = True
+	if minFound:
+		break
 print (combinations)
+
