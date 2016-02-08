@@ -14,3 +14,4 @@ def day24(num_groups):
 
 print(day24(3))
 print(day24(4))
+

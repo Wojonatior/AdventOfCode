@@ -1,5 +1,6 @@
 import itertools
 packages = []
+packages = []
 smallestFound = False
 
 with open("day24input.txt", 'r') as f:
