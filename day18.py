@@ -1,4 +1,4 @@
-from copy import deepcopy 
+from copy import deepcopy
 lightGrid = [[False for z in range(103)] for z in range(103)]
 y,generations = 1,100
 count = 0
@@ -68,14 +68,14 @@ for gen in range(generations):
 			elif(adjacentOn == 3):
 				print("Light Turned On")
 				tempLightGrid[x2][y2] = True
-	#Changes from new grid sent to origional 
+	#Changes from new grid sent to origional
 	lightGrid = deepcopy(tempLightGrid)
 	#For Part 2
 	lightGrid[1][1] = True
 	lightGrid[100][1] = True
 	lightGrid[1][100] = True
 	lightGrid[100][100] = True
-			
+
 	tempLightGrid = None
 
 count = 0
