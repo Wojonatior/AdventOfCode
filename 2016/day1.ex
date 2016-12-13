@@ -21,7 +21,7 @@ defmodule Compass do
       Agent.get_and_update :compass,
         fn (directionList) ->
           [a, b, c, d] = directionList
-          [d, a, b, c]
+          {[d, a, b, c], [d, a, b, c]}
         end
   end
 
@@ -29,31 +29,48 @@ defmodule Compass do
       Agent.get_and_update :compass,
         fn(directionList) ->
           [head | tail] = directionList
-          tail ++ [head]
+          {tail ++ [head], tail ++ [head]}
         end
   end
 
-  def getMove(scalarDistance) do
+  def turnAndGetMove(scalarDistance, turnDir) do
     #Scalar distance = 5
     #Cartesian = {0,0} at start
     #Direction = {1,0} or something
     # I want to return {5,0}
-    IO.puts "getMove was called"
-    
-    [direction|_] = [[0,-1],[]]#get()
-    IO.inspect direction
-    IO.puts "You made this happen"
+    [direction|_] = turn(turnDir)
     Enum.map(direction, fn (coord) -> scalarDistance * coord end)
+  end
+
+  def moveDistance(current, move) do
+    [xCurr, yCurr] = current
+    [xMov, yMov] = move
+    [xCurr+xMov, yCurr+yMov]
+  end
+  def getManhattanDistance(coords) do
+    [xCurr, yCurr] = coords
+    Kernel.abs(xCurr) + Kernel.abs(yCurr)
   end
 end
     
 
 
+
 {:ok, _} = Compass.init()
 
-#coordinates = {0,0}
+coordinates = [0,0]
 #file = Somefile.read_file
 
-move = Compass.getMove(5)
-IO.puts "Hello"
-IO.inspect(move)
+move = Compass.turnAndGetMove(5, :right)
+coordinates = Compass.moveDistance(coordinates, move)
+IO.inspect(coordinates, char_lists: false)
+move = Compass.turnAndGetMove(5, :left)
+coordinates = Compass.moveDistance(coordinates, move)
+IO.inspect(coordinates, char_lists: false)
+move = Compass.turnAndGetMove(5, :right)
+coordinates = Compass.moveDistance(coordinates, move)
+IO.inspect(coordinates, char_lists: false)
+move = Compass.turnAndGetMove(5, :left)
+coordinates = Compass.moveDistance(coordinates, move)
+IO.inspect(coordinates, char_lists: false)
+IO.inspect(Compass.getManhattanDistance(coordinates), char_lists: false)
