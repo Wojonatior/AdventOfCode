@@ -8,27 +8,52 @@ defmodule Somefile do
   end
 end
 
-defmodule compass do
+defmodule Compass do
   def init do
-    Task.start_link(fn -> loop([{0,1}, {1,0}, {0,-1}, {-1,0}]) end)
+    {:ok, _} = Agent.start_link(fn -> [[0,1], [1,0], [0,-1], [-1,0]] end, name: :compass)
   end
 
-  defp loop(directions) 
-    receive do
-      {:get, caller} ->
-        send caller, hd(directions)
-        loop(directions)
-      {:turn, :left, caller} ->
-        [1| [2 | [3 | 4]]] = directions
-        loop(4 ++ 1 ++ 2 ++ 3)
-      {:turn, :right, caller} ->
-        [head | tail] = directions
-        loop(tail ++ head)
+  def get() do
+    Agent.get(:compass, fn(n) -> n end)
+  end
+
+  defp turn(:left) do
+      Agent.get_and_update :compass,
+        fn (directionList) ->
+          [a, b, c, d] = directionList
+          [d, a, b, c]
+        end
+  end
+
+  defp turn(:right) do
+      Agent.get_and_update :compass,
+        fn(directionList) ->
+          [head | tail] = directionList
+          tail ++ [head]
+        end
+  end
+
+  def getMove(scalarDistance) do
+    #Scalar distance = 5
+    #Cartesian = {0,0} at start
+    #Direction = {1,0} or something
+    # I want to return {5,0}
+    IO.puts "getMove was called"
+    
+    [direction|_] = [[0,-1],[]]#get()
+    IO.inspect direction
+    IO.puts "You made this happen"
+    Enum.map(direction, fn (coord) -> scalarDistance * coord end)
+  end
+end
+    
 
 
-{:ok, pid} = Compass.init
-Process.register(pid, :compass)
-coordinates = {0,0}
-file = Somefile.read_file
+{:ok, _} = Compass.init()
 
+#coordinates = {0,0}
+#file = Somefile.read_file
 
+move = Compass.getMove(5)
+IO.puts "Hello"
+IO.inspect(move)
