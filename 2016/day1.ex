@@ -57,7 +57,8 @@ defmodule Compass do
   def walkInputAndSolve(input, currentCoordinates) do
     [currentMove | remainingMoves] = input
     direction = String.at(currentMove, 0)
-    distance = String.at(currentMove, 1)
+    #distance = String.at(currentMove, 1)
+    distance = currentMove |> String.trim |> String.slice( 1, 4) 
     dirAtom =
       if direction == "L" do
         :left
