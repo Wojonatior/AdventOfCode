@@ -1,20 +1,17 @@
-defmodule Somefile do
-  def get_filename() do
-    IO.gets("Input filename:") |> String.trim
+defmodule ProblemInput do
+  defp read_file(filename) do
+    File.read!(filename)
   end
-
-  def read_file() do
-    File.read!(get_filename)
+  
+  def readAndParse(filename) do
+    fileAsString = read_file(filename)
+    parsedInput = Regex.split(~r/, /, fileAsString)
   end
 end
 
 defmodule Compass do
   def init do
     {:ok, _} = Agent.start_link(fn -> [[0,1], [1,0], [0,-1], [-1,0]] end, name: :compass)
-  end
-
-  def get() do
-    Agent.get(:compass, fn(n) -> n end)
   end
 
   defp turn(:left) do
@@ -47,9 +44,20 @@ defmodule Compass do
     [xMov, yMov] = move
     [xCurr+xMov, yCurr+yMov]
   end
+
   def getManhattanDistance(coords) do
     [xCurr, yCurr] = coords
     Kernel.abs(xCurr) + Kernel.abs(yCurr)
+  end
+
+  def walkInputAndSolve(input) do
+    [currentMove | remainingMoves] = input
+    case currentMove do
+      ["R", distance] ->
+        distanceToMove = turnAndGetMove(distance, :right)
+      ["L", distance] ->
+        distanceToMove = turnAndGetMove(distance, :left)
+    end
   end
 end
     
@@ -59,18 +67,20 @@ end
 {:ok, _} = Compass.init()
 
 coordinates = [0,0]
-#file = Somefile.read_file
+problemInput = ProblemInput.readAndParse("day1input.txt")
+result = Compass.walkInputAndSolve(problemInput)
+IO.inspect result
 
-move = Compass.turnAndGetMove(5, :right)
-coordinates = Compass.moveDistance(coordinates, move)
-IO.inspect(coordinates, char_lists: false)
-move = Compass.turnAndGetMove(5, :left)
-coordinates = Compass.moveDistance(coordinates, move)
-IO.inspect(coordinates, char_lists: false)
-move = Compass.turnAndGetMove(5, :right)
-coordinates = Compass.moveDistance(coordinates, move)
-IO.inspect(coordinates, char_lists: false)
-move = Compass.turnAndGetMove(5, :left)
-coordinates = Compass.moveDistance(coordinates, move)
-IO.inspect(coordinates, char_lists: false)
-IO.inspect(Compass.getManhattanDistance(coordinates), char_lists: false)
+#move = Compass.turnAndGetMove(5, :right)
+#coordinates = Compass.moveDistance(coordinates, move)
+#IO.inspect(coordinates, char_lists: false)
+#move = Compass.turnAndGetMove(5, :left)
+#coordinates = Compass.moveDistance(coordinates, move)
+#IO.inspect(coordinates, char_lists: false)
+#move = Compass.turnAndGetMove(5, :right)
+#coordinates = Compass.moveDistance(coordinates, move)
+#IO.inspect(coordinates, char_lists: false)
+#move = Compass.turnAndGetMove(5, :left)
+#coordinates = Compass.moveDistance(coordinates, move)
+#IO.inspect(coordinates, char_lists: false)
+#IO.inspect(Compass.getManhattanDistance(coordinates), char_lists: false)
