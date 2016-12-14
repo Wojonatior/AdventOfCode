@@ -50,14 +50,23 @@ defmodule Compass do
     Kernel.abs(xCurr) + Kernel.abs(yCurr)
   end
 
-  def walkInputAndSolve(input) do
+  def walkInputAndSolve(input, currentCoordinates) when input == [] do
+    getManhattanDistance(currentCoordinates)
+  end
+
+  def walkInputAndSolve(input, currentCoordinates) do
     [currentMove | remainingMoves] = input
-    case currentMove do
-      ["R", distance] ->
-        distanceToMove = turnAndGetMove(distance, :right)
-      ["L", distance] ->
-        distanceToMove = turnAndGetMove(distance, :left)
-    end
+    direction = String.at(currentMove, 0)
+    distance = String.at(currentMove, 1)
+    dirAtom =
+      if direction == "L" do
+        :left
+      else
+        :right
+      end
+    distToMove = turnAndGetMove(String.to_integer(distance), dirAtom)
+    endCoordinates = moveDistance(currentCoordinates, distToMove)
+    walkInputAndSolve(remainingMoves, endCoordinates)
   end
 end
     
@@ -66,9 +75,8 @@ end
 
 {:ok, _} = Compass.init()
 
-coordinates = [0,0]
 problemInput = ProblemInput.readAndParse("day1input.txt")
-result = Compass.walkInputAndSolve(problemInput)
+result = Compass.walkInputAndSolve(problemInput, [0,0])
 IO.inspect result
 
 #move = Compass.turnAndGetMove(5, :right)
