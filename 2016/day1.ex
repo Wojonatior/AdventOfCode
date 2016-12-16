@@ -50,24 +50,48 @@ defmodule Compass do
     Kernel.abs(xCurr) + Kernel.abs(yCurr)
   end
 
-  def walkInputAndSolve(input, currentCoordinates) when input == [] do
-    getManhattanDistance(currentCoordinates)
+  def getAllIntersections(move, current, intersections) do
+    IO.inspect move
+    if move == [0,0] do
+      intersections
+    else
+      [xCurr, yCurr] = current
+      [xMov, yMov] = move
+      {xMov, xCurr} = if xMov > 0 do
+        {xMov - 1, xCurr + 1}
+      else
+        {xMov, xCurr}
+      end
+      {yMov, yCurr} = if yMov > 0 do
+        {yMov - 1, yCurr + 1}
+      else
+        {yMov, yCurr}
+      end
+      current = [xCurr, yCurr]
+      move = [xMov, yMov]
+      Map.put(intersections, String.to_atom(List.to_string(current)), true)
+      getAllIntersections(move, current, intersections)
+    end
   end
 
-  def walkInputAndSolve(input, currentCoordinates) do
+  def walkInputAndSolve(input, currentCoordinates, intersections) when input == [] do
+    { getManhattanDistance(currentCoordinates), intersections }
+  end
+
+  def walkInputAndSolve(input, currentCoordinates, intersections) do
     [currentMove | remainingMoves] = input
     direction = String.at(currentMove, 0)
-    #distance = String.at(currentMove, 1)
     distance = currentMove |> String.trim |> String.slice( 1, 4) 
     dirAtom =
       if direction == "L" do
         :left
-      else
+      else #direction == "R" do
         :right
       end
     distToMove = turnAndGetMove(String.to_integer(distance), dirAtom)
     endCoordinates = moveDistance(currentCoordinates, distToMove)
-    walkInputAndSolve(remainingMoves, endCoordinates)
+    #intersections = getAllIntersections(distToMove, currentCoordinates, intersections)
+    walkInputAndSolve(remainingMoves, endCoordinates, intersections)
   end
 end
     
@@ -77,19 +101,5 @@ end
 {:ok, _} = Compass.init()
 
 problemInput = ProblemInput.readAndParse("day1input.txt")
-result = Compass.walkInputAndSolve(problemInput, [0,0])
+result = Compass.walkInputAndSolve(problemInput, [0,0], %{})
 IO.inspect result
-
-#move = Compass.turnAndGetMove(5, :right)
-#coordinates = Compass.moveDistance(coordinates, move)
-#IO.inspect(coordinates, char_lists: false)
-#move = Compass.turnAndGetMove(5, :left)
-#coordinates = Compass.moveDistance(coordinates, move)
-#IO.inspect(coordinates, char_lists: false)
-#move = Compass.turnAndGetMove(5, :right)
-#coordinates = Compass.moveDistance(coordinates, move)
-#IO.inspect(coordinates, char_lists: false)
-#move = Compass.turnAndGetMove(5, :left)
-#coordinates = Compass.moveDistance(coordinates, move)
-#IO.inspect(coordinates, char_lists: false)
-#IO.inspect(Compass.getManhattanDistance(coordinates), char_lists: false)
