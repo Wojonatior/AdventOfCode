@@ -31,10 +31,6 @@ defmodule Compass do
   end
 
   def turnAndGetMove(scalarDistance, turnDir) do
-    #Scalar distance = 5
-    #Cartesian = {0,0} at start
-    #Direction = {1,0} or something
-    # I want to return {5,0}
     [direction|_] = turn(turnDir)
     Enum.map(direction, fn (coord) -> scalarDistance * coord end)
   end
