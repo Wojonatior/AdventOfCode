@@ -23,17 +23,16 @@ def checkMove(dir, coords):
     }
     y,x = directionDict[dir]
     newCoords = (coords[0]+y, coords[1]+x)
-    return (newCoords, validLocations[newCoords[0]][newCoords[1]])
+    return (newCoords, validLocations[newCoords[0]+1][newCoords[1]+1])
 
 #remember to adjust the indicies when checking "valid locations"
-for instruction in puzzleinput:
-    directionList = list(instruction) 
-    for direction in directionList:
-       (newMove, validMove) = checkMove(direction, currentCoords)
-       if validMove:
-           currentCoords = newMove
-    finalAnswer.append(str(
-        keypad[ currentCoords[0] ][ currentCoords[1] ] ))
+for direction in puzzleinput:
+    if direction == "\n":
+        finalAnswer.append(str(keypad[ currentCoords[0] ][ currentCoords[1] ] ))
+    else:
+        (newMove, validMove) = checkMove(direction, currentCoords)
+        if validMove:
+            currentCoords = newMove
 
 print(finalAnswer)
 
