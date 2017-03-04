@@ -1,0 +1,3 @@
+/Users/wojo/projects/AdventOfCode/2016/solutions/cppSolutons/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/wojo/projects/AdventOfCode/2016/solutions/cppSolutons/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/wojo/projects/AdventOfCode/2016/solutions/cppSolutons/cmake-build-debug/CMakeFiles/cppSolutons.dir
