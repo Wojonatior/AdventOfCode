@@ -46,8 +46,11 @@ public:
             //Get next point, modifying only one axis at a time
             if(xdiff>0){coord_to_visit.x += sign * 1;}
             else{coord_to_visit.y += sign * 1;}
-            std::pair<std::map::iterator, bool> results = visitedCoordinates.insert({coord_to_visit,true});
-            if(results.second){
+            //Attempt to insert the current location
+            visitedCoordinates.insert({coord_to_visit,true});
+            //Check for a collision
+            if ( visitedCoordinates.find(coord_to_visit) != visitedCoordinates.end() ) {
+                //Save first intersection
                 first_intersection_found = true;
                 firstIntersection = coord_to_visit;
                 return;
