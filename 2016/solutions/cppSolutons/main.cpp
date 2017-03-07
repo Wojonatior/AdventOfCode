@@ -13,9 +13,9 @@ class Compass{
     std::vector<Coordinate> cardinalVectors;
     int currentDirection = 0;
     Coordinate currentLocation = Coordinate(0,0);
-    Coordinate *firstIntersection = NULL;
-    //Create a decent default here that uses starts with 0,0
-    std::map<Coordinate, bool>> visitedCoordinates = {Coordinate(0,0), true}
+    Coordinate firstIntersection = Coordinate(0,0);
+    bool first_intersection_found = false;
+    std::map<Coordinate, bool> visitedCoordinates;
 public:
     // Initalizes the cardinal directions vector x,y pairs used to correctly translate the movement distance
     Compass() {
@@ -24,6 +24,7 @@ public:
         Coordinate south = Coordinate( 0,-1);
         Coordinate west  = Coordinate(-1, 0);
         cardinalVectors = {north, east, west, south};
+        visitedCoordinates.insert({Coordinate(0,0),true});
     }
 
     //Returns a pair representing the x,y movement multipliers to be applied to a distance to move
@@ -45,10 +46,9 @@ public:
             //Get next point, modifying only one axis at a time
             if(xdiff>0){coord_to_visit.x += sign * 1;}
             else{coord_to_visit.y += sign * 1;}
-
-            //Check for existence
-            if(visitedCoordinates[coord_to_visit] != NULL){
-                //Save first intersection
+            std::pair<std::map::iterator, bool> results = visitedCoordinates.insert({coord_to_visit,true});
+            if(results.second){
+                first_intersection_found = true;
                 firstIntersection = coord_to_visit;
                 return;
             }
@@ -58,7 +58,7 @@ public:
     void move_distance(int distance){
         int xdiff = distance * cardinalVectors[currentDirection].x;
         int ydiff = distance * cardinalVectors[currentDirection].y;
-        if(firstIntersection != NULL)
+        if(!first_intersection_found)
             record_intermediate_points(xdiff, ydiff);
         currentLocation.x += xdiff;
         currentLocation.y += ydiff;
