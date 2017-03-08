@@ -1,3 +1,8 @@
+//
+// Created by Jarek Wojciechowski on 3/7/17.
+//
+
+#include "day1.h"
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -77,7 +82,7 @@ public:
 };
 
 
-int main() {
+int solve_day1() {
     Compass compass = Compass();
 
     FILE *fp;
