@@ -5,13 +5,28 @@
 #include "day1.h"
 #include <iostream>
 #include <fstream>
-#include <map>
 #include <vector>
+#include <unordered_set>
 
 struct Coordinate{
     int x;
     int y;
     Coordinate(int init_x, int init_y){ x = init_x; y = init_y;};
+    bool operator==(const Coordinate& other) {
+        return (x == other.x && y == other.y);
+    }
+};
+
+template <>
+struct std::hash<Coordinate>
+{
+    size_t operator()(Coordinate const & coord) const noexcept
+    {
+        return (
+            (51 + std::hash<int>()(coord.x)) * 51
+            + std::hash<int>()(coord.y)
+        );
+    }
 };
 
 class Compass{
@@ -20,7 +35,7 @@ class Compass{
     Coordinate currentLocation = Coordinate(0,0);
     Coordinate firstIntersection = Coordinate(0,0);
     bool first_intersection_found = false;
-    std::map<Coordinate, bool> visitedCoordinates;
+    std::unordered_set<Coordinate> visitedCoordinates;
 public:
     // Initalizes the cardinal directions vector x,y pairs used to correctly translate the movement distance
     Compass() {
@@ -29,7 +44,7 @@ public:
         Coordinate south = Coordinate( 0,-1);
         Coordinate west  = Coordinate(-1, 0);
         cardinalVectors = {north, east, west, south};
-        visitedCoordinates.insert({Coordinate(0,0),true});
+        visitedCoordinates.insert(Coordinate(0,0));
     }
 
     //Returns a pair representing the x,y movement multipliers to be applied to a distance to move
@@ -51,21 +66,25 @@ public:
             //Get next point, modifying only one axis at a time
             if(xdiff>0){coord_to_visit.x += sign * 1;}
             else{coord_to_visit.y += sign * 1;}
-            //Attempt to insert the current location
-            visitedCoordinates.insert({coord_to_visit,true});
+
+            std::unordered_set<Coordinate>::const_iterator findResult = visitedCoordinates.find(coord_to_visit);
             //Check for a collision
-            if ( visitedCoordinates.find(coord_to_visit) != visitedCoordinates.end() ) {
+            if (findResult != visitedCoordinates.end()) {
                 //Save first intersection
                 first_intersection_found = true;
                 firstIntersection = coord_to_visit;
                 return;
             }
+            //Insert at the current location
+            visitedCoordinates.insert(coord_to_visit);
+
         }
     }
 
     void move_distance(int distance){
-        int xdiff = distance * cardinalVectors[currentDirection].x;
-        int ydiff = distance * cardinalVectors[currentDirection].y;
+        Coordinate dir_vector = get_dir_vector();
+        int xdiff = distance * dir_vector.x;
+        int ydiff = distance * dir_vector.y;
         if(!first_intersection_found)
             record_intermediate_points(xdiff, ydiff);
         currentLocation.x += xdiff;

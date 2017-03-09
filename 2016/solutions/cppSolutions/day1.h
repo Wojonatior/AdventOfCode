@@ -10,3 +10,4 @@ class Compass;
 int solve_day1();
 
 #endif //CPPSOLUTONS_DAY1_H
+
