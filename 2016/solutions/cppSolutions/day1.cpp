@@ -121,6 +121,6 @@ int solve_day1() {
         compass.apply_move(turn_direction, distance);
 
     std::cout << "Manhattan Distance: " << compass.get_end_location() << "\n";
-    std::cout << "Manhattan Distance of First Instersection: " << compass.get_first_intersection() << "\n";
+    std::cout << "Manhattan Distance of First Instersection: " << compass.get_first_intersection();
     return 0;
 }
