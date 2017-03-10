@@ -18,12 +18,21 @@ public:
         }
     }
 
-    std::string get_final_message(){
+    std::string get_max_final_message(){
         std::string output_string = "";
         for(int i=0; i < 8 /**Hardcoded because I don't know how to get the first length**/; i++){
             //for each character position, find the highest frequency, and get the index, then converts it back into a character
             output_string +=
                 std::distance(character_counter[i], std::max_element(character_counter[i], character_counter[i] + 26)) + 'a';
+        }
+        return output_string;
+    }
+    std::string get_min_final_message(){
+        std::string output_string = "";
+        for(int i=0; i < 8 /**Hardcoded because I don't know how to get the first length**/; i++){
+            //for each character position, find the highest frequency, and get the index, then converts it back into a character
+            output_string +=
+                    std::distance(character_counter[i], std::min_element(character_counter[i], character_counter[i] + 26)) + 'a';
         }
         return output_string;
     }
@@ -40,10 +49,10 @@ int solve_day6(){
     std::string message;
 
     while (fscanf(fp, "%s", &temp_cstr) > 0) {
-        std:: cout << "Reading a message\n";
         message = temp_cstr;
         sig_processor.process_message(message);
     }
 
-    std::cout << "De-Noise-ified message: " << sig_processor.get_final_message();
+    std::cout << "Max-rep cipher message: " << sig_processor.get_max_final_message() << "\n";
+    std::cout << "Min-rep cipher message: " << sig_processor.get_min_final_message();
 }
