@@ -12,10 +12,11 @@ struct Coordinate{
     int x;
     int y;
     Coordinate(int init_x, int init_y){ x = init_x; y = init_y;};
-    bool operator==(const Coordinate& other) {
-        return (x == other.x && y == other.y);
-    }
 };
+
+static bool operator== (const Coordinate& coord1, const Coordinate& coord2) {
+    return (coord1.x == coord2.x && coord1.y == coord2.y);
+}
 
 template <>
 struct std::hash<Coordinate>
@@ -119,7 +120,7 @@ int solve_day1() {
     while(fscanf(fp, ", %c%d", &turn_direction, &distance) == 2)
         compass.apply_move(turn_direction, distance);
 
-    std::cout << "Manhattan Distance: " << compass.get_end_location();
-    std::cout << "First intersection manhattan dist " << compass.get_first_intersection();
+    std::cout << "Manhattan Distance: " << compass.get_end_location() << "\n";
+    std::cout << "Manhattan Distance of First Instersection: " << compass.get_first_intersection() << "\n";
     return 0;
 }
