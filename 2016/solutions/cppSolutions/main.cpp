@@ -2,6 +2,7 @@
 #include "day2.h"
 #include "day3.h"
 #include "day6.h"
+#include "day7.h"
 #include <string>
 #include <iostream>
 
@@ -18,6 +19,8 @@ int main() {
     solve_day3();
     day_header("Day 6");
     solve_day6();
+    day_header("Day 7");
+    solve_day7(true);
     return 0;
 }
 
