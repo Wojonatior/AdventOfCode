@@ -1,6 +1,7 @@
 #include "day1.h"
 #include "day2.h"
 #include "day3.h"
+#include "day5.h"
 #include "day6.h"
 #include "day7.h"
 #include <string>
@@ -17,10 +18,12 @@ int main() {
     solve_day2();
     day_header("Day 3");
     solve_day3();
+    day_header("Day 5");
+    solve_day5();
     day_header("Day 6");
     solve_day6();
     day_header("Day 7");
-    solve_day7(true);
+    solve_day7(false);
     return 0;
 }
 
