@@ -1,6 +1,7 @@
 #include "day1.h"
 #include "day2.h"
 #include "day3.h"
+#include "day4.h"
 #include "day5.h"
 #include "day6.h"
 #include "day7.h"
@@ -12,18 +13,20 @@ void day_header(std::string day_name){
 }
 
 int main() {
-    day_header("Day 1");
-    solve_day1();
-    day_header("Day 2");
-    solve_day2();
-    day_header("Day 3");
-    solve_day3();
-    day_header("Day 5");
-    solve_day5();
-    day_header("Day 6");
-    solve_day6();
-    day_header("Day 7");
-    solve_day7(false);
+//    day_header("Day 1");
+//    solve_day1();
+//    day_header("Day 2");
+//    solve_day2();
+//    day_header("Day 3");
+//    solve_day3();
+    day_header("Day 4");
+    solve_day4();
+//    day_header("Day 5");
+//    solve_day5();
+//    day_header("Day 6");
+//    solve_day6();
+//    day_header("Day 7");
+//    solve_day7(false);
     return 0;
 }
 
