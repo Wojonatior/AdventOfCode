@@ -51,7 +51,6 @@ public:
 
     bool is_north_pole(){
         std::string shifted_room = room_name;
-        //TODO: shift room name
         for(int i=0; i<shifted_room.length(); i++){
             shifted_room[i] = ((shifted_room[i] - 'a' + sector_id) % 26) + 'a';
         }

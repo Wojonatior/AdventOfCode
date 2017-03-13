@@ -19,14 +19,14 @@ int main() {
 //    solve_day2();
 //    day_header("Day 3");
 //    solve_day3();
-    day_header("Day 4");
-    solve_day4();
+//    day_header("Day 4");
+//    solve_day4();
 //    day_header("Day 5");
 //    solve_day5();
 //    day_header("Day 6");
 //    solve_day6();
-//    day_header("Day 7");
-//    solve_day7(false);
+    day_header("Day 7");
+    solve_day7(false, false);
     return 0;
 }
 
